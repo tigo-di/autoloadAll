@@ -50,22 +50,6 @@ try {
 
 
 
-// Calling class Divide
-// baseclasspath "." not exists in configs.ini
-// file exists
-// class exists
-// return Class Divide not found
-try {
-    
-    $replace = new Divide(20,5);
-    output('>> Divide: ' . $replace->getResult());
-    
-} catch (Throwable $t) {
-    output($t->getMessage());
-}
-
-
-
 // Calling class Replace
 // baseclasspath "lib" exists in configs.ini
 // file exists
@@ -80,6 +64,22 @@ try {
     $result = $replace->getResult();
 
     output('>> Replace: ' . $result);
+    
+} catch (Throwable $t) {
+    output($t->getMessage());
+}
+
+
+
+// Calling class Divide
+// baseclasspath "." not exists in configs.ini
+// file exists
+// class exists
+// return Class Divide not found
+try {
+    
+    $replace = new Divide(20,5);
+    output('>> Divide: ' . $replace->getResult());
     
 } catch (Throwable $t) {
     output($t->getMessage());
