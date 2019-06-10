@@ -42,7 +42,7 @@ class configs
 
 
             if (PRINTLOGS) {
-                echo $messageOutput;
+                output($messageOutput);
             }
 
 

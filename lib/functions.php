@@ -5,9 +5,10 @@
 
 function directories($classPath)
 {
-    
-    $it = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($classPath));
-   
+
+    $directoryIterator  = new RecursiveDirectoryIterator($classPath);
+    $it = new RecursiveIteratorIterator($directoryIterator);
+
     $paths = [];
 
     foreach ($it as $directory) {
@@ -15,10 +16,9 @@ function directories($classPath)
         if (is_dir($directory)) {
 
             // remove ./ at beginning
-            // remove /. and /.. at end 
-            $directoryCurrent = //$directory;
+            // remove /. and /.. at end
+            // SKIP_DOTS dont work
             $directoryCurrent = preg_replace('/^\.\/|\/\.+/', '', $directory);
-
 
             $paths[] = $directoryCurrent . DIRECTORY_SEPARATOR;
 
