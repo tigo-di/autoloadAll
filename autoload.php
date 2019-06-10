@@ -3,66 +3,50 @@
 function autoloadAll ($nameClass)
 {
 
-    $countBASE_CLASSPATH_ARRAY = count(BASE_CLASSPATH_ARRAY);
-    $iteratorBASE_CLASSPATH_ARRAY = 0;
+    $countCLASSPATH_ARRAY = count(CLASSPATH_ARRAY);
+    $iteratorCLASSPATH_ARRAY = 0;
 
-    
-    foreach (BASE_CLASSPATH_ARRAY as $classPath) {
+               
+        // directories create Array with the folder of variable $classPath and yours subfolders 
+        foreach (CLASSPATH_ARRAY as $directoryCurrent) {
 
-        if (!is_dir($classPath)) {
+            $extension = '.php';
+            $fullPath =  $directoryCurrent . strtolower($nameClass) . $extension;
 
-            output('Baseclasspath ' . $classPath .' not found');
-        
-        }
-        else
-        {
+            $printlogExtra = false;
 
-            $directoriesArray = directories($classPath);
-        
-            
-                 // directories create Array with the folder of variable $classPath and yours subfolders 
-                foreach ($directoriesArray as $directoryCurrent) {
 
-                    $extension = '.php';
-                    $fullPath =  $directoryCurrent . strtolower($nameClass) . $extension;
+                if (file_exists($fullPath)) {
+                    require_once($fullPath);
+                    $printlogExtra = true;
+                }
 
-                    $printlogExtra = false;
 
+                if (PRINTLOGS) {
+
+                    $printlogExtraText = ($printlogExtra ? ' <b>file founded</b>' : '' );
+
+                    output($fullPath . $printlogExtraText);
                     
-                    if (file_exists($fullPath)) {
-                        require_once($fullPath);
-                        $printlogExtra = true;
-                    }
-
-
-                    if (PRINTLOGS) {
-
-                        $printlogExtraText = ($printlogExtra ? ' <b>file founded</b>' : '' );
-
-                        echo output($fullPath . $printlogExtraText);
-                        
-                        $printlogExtra = false;
-
-                    }
-
+                    $printlogExtra = false;
 
                 }
 
-       
+
+            // In the end of two loops, it is to verified if the class was loaded. 
+            // If false, It is thrown an error
+            $iteratorCLASSPATH_ARRAY = $iteratorCLASSPATH_ARRAY + 1;
+            
+                if ($countCLASSPATH_ARRAY == $iteratorCLASSPATH_ARRAY &&
+                !class_exists($nameClass, false)) {
+                    
+                    throw new Exception('>> Class ' . $nameClass . ' not found');
+                
+                }
+
+
         }
 
-        // In the end of two loops, it is to verified if the class was loaded. 
-        // If false, It is thrown an error
-        $iteratorBASE_CLASSPATH_ARRAY = $iteratorBASE_CLASSPATH_ARRAY + 1;
-        
-            if ($countBASE_CLASSPATH_ARRAY == $iteratorBASE_CLASSPATH_ARRAY &&
-            !class_exists($nameClass, false)) {
-                
-                throw new Exception('>> Class ' . $nameClass . ' not found');
-            
-            }
-
-    }
 
 }
 

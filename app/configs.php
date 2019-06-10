@@ -5,6 +5,9 @@ class configs
 
     private $cfgs;
     private $server = 'local';
+    private $classPathArray = [];
+    private $messageOutput;
+
 
     public function __construct($pathConfig)
     {
@@ -15,10 +18,39 @@ class configs
             $this->server = 'remote';
         }
 
-        define('BASE_CLASSPATH_ARRAY', $this->cfgs['baseclasspath']);
-        
         define('PRINTLOGS', $this->cfgs['general']['printlogs']);
 
+        define('CLASSPATH_ARRAY', $this->classpath($this->cfgs['baseclasspath']));
+
     }
+
+
+    private function classpath($baseclassPathArray)
+    {
+
+        foreach ($baseclassPathArray as $currrentClassPath) {
+
+
+            if (!is_dir($currrentClassPath)) {
+                $messageOutput = 'Baseclasspath ' . $currrentClassPath .' not found';
+            }
+            else
+            {
+                $this->classPathArray = array_merge($this->classPathArray, directories($currrentClassPath));
+                $messageOutput = $currrentClassPath;
+            }
+
+
+            if (PRINTLOGS) {
+                echo $messageOutput;
+            }
+
+
+        }
+
+        return $this->classPathArray;
+
+    }
+
 
 }

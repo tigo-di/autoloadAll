@@ -16,7 +16,9 @@ function directories($classPath)
 
             // remove ./ at beginning
             // remove /. and /.. at end 
-            $directoryCurrent = $directory;// preg_replace('/^\.\/|\/\.+/', '', $directory);
+            $directoryCurrent = //$directory;
+            $directoryCurrent = preg_replace('/^\.\/|\/\.+/', '', $directory);
+
 
             $paths[] = $directoryCurrent . DIRECTORY_SEPARATOR;
 
@@ -32,7 +34,5 @@ function directories($classPath)
 
 function output($content)
 {
-
     echo '<p>' . $content . '</p>' . "\n";
-
 }
